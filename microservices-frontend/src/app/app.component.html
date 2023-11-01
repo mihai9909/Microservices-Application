@@ -1,0 +1,8 @@
+<nav>
+    <ul>
+        <li *ngIf="loggedIn()"><a href="/devices">Devices</a></li>
+        <li *ngIf="currentUser()=='admin'"><a href="/users">Users</a></li>
+        <li *ngIf="!loggedIn()"><a href="/login">Login</a></li>
+    </ul>
+</nav>
+<router-outlet></router-outlet>

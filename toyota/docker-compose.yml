@@ -1,0 +1,71 @@
+version: '3'
+
+networks:
+  microservices:
+
+services:
+  users-db:
+    image: postgres:latest
+    container_name: users-database
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: admin
+      POSTGRES_USER: postgres
+    volumes:
+      - ./users-data/db:/var/lib/postgresql/data
+    networks:
+      - microservices
+    
+  devices-db:
+    image: postgres:latest
+    container_name: devices-database
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_PASSWORD: admin
+      POSTGRES_USER: postgres
+    volumes:
+      - ./devices-data/db:/var/lib/postgresql/data
+    networks:
+      - microservices
+
+  users-service:
+    image: ds/users
+    container_name: users-service
+    build: ../user-management
+    ports:
+      - "3000:3000"
+    environment:
+      - DATABASE_PASSWORD=admin
+      - DATABASE_USER=postgres
+      - DATABASE_HOST=users-db
+      - DEVICES_SERVICE_HOST=devices-service:3000
+    depends_on:
+      - users-db
+    networks:
+      - microservices
+
+  devices-service:
+    image: ds/devices
+    container_name: devices-service
+    build: ../device-management
+    ports:
+      - "3001:3000"
+    environment:
+      - DATABASE_PASSWORD=admin
+      - DATABASE_USER=postgres
+      - DATABASE_HOST=devices-db
+    depends_on:
+      - devices-db
+    networks:
+      - microservices
+
+  frontend-service:
+    image: ds/frontend
+    container_name: frontend-service
+    build: ../microservices-frontend
+    ports:
+      - "80:80"
+    networks:
+      - microservices

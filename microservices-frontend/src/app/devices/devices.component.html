@@ -1,0 +1,9 @@
+<ul>
+    <li *ngFor="let device of devices">{{ device.id }} | {{ device.name }} : user_id = {{ device.user_id }}
+        <ng-template [ngIf]="isAdmin()">
+            <button routerLink="/devices/{{device.id}}/edit">Edit Device</button>
+            <button (click)="deleteDevice(device.id!)">Delete</button>
+        </ng-template>
+    </li>
+</ul>
+<button routerLink="/devices/new" *ngIf="isAdmin()">New Device</button>
