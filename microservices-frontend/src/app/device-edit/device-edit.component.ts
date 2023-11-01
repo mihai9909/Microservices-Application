@@ -12,8 +12,10 @@ import { environment } from 'src/environments/environment.development';
 })
 export class DeviceEditComponent {
   private apiUrl = environment.devicesUrl; // Replace this with your actual API endpoint
+  private usersUrl = environment.usersUrl; // Replace this with your actual API endpoint
 
   device: Device = {} as Device;
+  userIds: number[] = [];
 
   constructor(private http: HttpClient, private route: ActivatedRoute) { }
 
@@ -24,6 +26,8 @@ export class DeviceEditComponent {
       // Handle errors here
       console.error(error);
     });
+
+    this.getUsers();
   }
 
   update(): void {
@@ -38,6 +42,16 @@ export class DeviceEditComponent {
 
   updateDevice(): Observable<any> {
     return this.http.put<any>(`${this.apiUrl}/devices/${this.device.id}?role=admin`, this.device, { observe: 'response', withCredentials: true});
+  }
+
+  getUsers(): void {
+    this.http.get<any>(`${this.usersUrl}/users`, { observe: 'response', withCredentials: true}).subscribe(response => {
+      this.userIds = response.body.map((user: any) => user.id);
+      console.log(this.userIds);
+    }, error => {
+      // Handle errors here
+      console.error(error);
+    });
   }
   
   getDevice(): Observable<any> {

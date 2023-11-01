@@ -6,7 +6,9 @@
     </div>
     <div class="form-group">
         <label>Owner ID:</label>
-        <input type="text" [(ngModel)]="device.user_id" name="type" required>
+        <select type="text" name="type" [(ngModel)]="device.user_id">
+            <option *ngFor="let userId of userIds" value="{{userId}}">{{userId}}</option>
+        </select>
     </div>
     <button type="submit">Save</button>
 </form>
