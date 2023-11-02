@@ -98,6 +98,9 @@ GEM
       i18n (>= 1.8.11, < 2)
     globalid (1.2.1)
       activesupport (>= 6.1)
+    http-2-next (1.0.1)
+    httpx (1.1.0)
+      http-2-next (>= 1.0.1)
     i18n (1.14.1)
       concurrent-ruby (~> 1.0)
     importmap-rails (1.2.1)
@@ -271,6 +274,7 @@ DEPENDENCIES
   dotenv-rails
   factory_bot_rails
   faker (~> 3.2)
+  httpx
   importmap-rails
   jbuilder (~> 2.11.5)
   net-http

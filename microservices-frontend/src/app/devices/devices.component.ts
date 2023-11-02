@@ -24,11 +24,11 @@ export class DevicesComponent {
   }
 
   currentRole(): string {
-    return localStorage.getItem('role') || '';
+    return sessionStorage.getItem('role') || '';
   }
 
   currentUserId(): string {
-    return localStorage.getItem('id') || '';
+    return sessionStorage.getItem('id') || '';
   }
 
   isAdmin(): boolean {

@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   # get "up" => "rails/health#show", as: :rails_health_check
 
   resources :users, only: [:index, :create, :update, :destroy, :show]
+  get "users/find/:id" => "users#find_user"
 
   get "hello" => "hello#hello"
 

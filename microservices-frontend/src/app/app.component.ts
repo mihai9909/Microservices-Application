@@ -13,11 +13,11 @@ export class AppComponent {
   constructor(private http: HttpClient) { }
 
   currentUser() {
-    return localStorage.getItem('role');
+    return sessionStorage.getItem('role');
   }
 
   loggedIn() {
-    return !!localStorage.getItem('role');
+    return !!sessionStorage.getItem('role');
   }
 
 }

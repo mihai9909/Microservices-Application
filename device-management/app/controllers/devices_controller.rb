@@ -20,7 +20,7 @@ class DevicesController < ApplicationController
 
   def create
     @device = Device.new(device_params)
-    if @device.save
+    if verify_user && @device.save
       render json: @device
     else
       render json: @device.errors.full_messages, status: :unprocessable_entity
@@ -29,7 +29,7 @@ class DevicesController < ApplicationController
 
   def update
     @device = Device.find(params[:id])
-    if @device.update(device_params)
+    if verify_user && @device.update(device_params)
       render json: @device
     else
       render json: @device.errors.full_messages, status: :unprocessable_entity
@@ -49,6 +49,17 @@ class DevicesController < ApplicationController
 	end
 
 	private
+
+  def verify_user
+    begin
+    @status = HTTPX.get("http://users-service:3000/users/find/#{params[:device][:user_id]}").status/100
+    return @status == 2
+    rescue NoMethodError
+      @device.errors.add(:user_id, "User does not exist")
+      false
+    end
+  end
+
 	def device_params
 		params.require(:device).permit(:name, :user_id)
 	end

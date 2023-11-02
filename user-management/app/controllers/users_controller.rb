@@ -7,6 +7,11 @@ class UsersController < ApplicationController
     render json: @users
   end
 
+  def find_user
+    @user = User.find(params[:id])
+    render json: @user
+  end
+
   def show
     if params[:id] == "me"
       @user = current_user

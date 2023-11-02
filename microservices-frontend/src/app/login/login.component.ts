@@ -16,8 +16,8 @@ export class LoginComponent {
   login(): void {
     this.loginService.loginUser(this.email, this.password)
       .subscribe(response => {
-        localStorage.setItem('role', response.body.role);
-        localStorage.setItem('id', response.body.id);
+        sessionStorage.setItem('role', response.body.role);
+        sessionStorage.setItem('id', response.body.id);
         // Redirect to the appropriate page
         if (response.body.role === 'admin') {
           window.location.href = '/users';
